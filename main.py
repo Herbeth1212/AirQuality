@@ -11,6 +11,10 @@ import time
 import os
 from dotenv import load_dotenv
 
+#loading health data
+health_data = pd.read_csv("Cases_data.csv")
+
+#loading airquality data
 load_dotenv(dotenv_path=".gitignore/.env")  # this loads .env file
 
 API_KEY = os.getenv("API_KEY")
@@ -66,3 +70,14 @@ print(df.head())
 # Save to CSV
 df.to_csv("delhi_pm25_2021_2023.csv", index=False)
 print(f"Saved {len(df)} records to delhi_pm25_2021_2023.csv")
+
+#data_cleaning
+df['date_from'] = df['period'].apply(
+    lambda d: pd.to_datetime(d['datetimeFrom']['local']).strftime("%d-%m-%y")
+)
+df['date_to'] = df['period'].apply(
+    lambda d: pd.to_datetime(d['datetimeTo']['local']).strftime("%d-%m-%y")
+)
+
+airQuality_data = pd.read_csv("delhi_pm25_2021_2023.csv")
+
